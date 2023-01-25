@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../contexts/BudgetContext";
 
-const AddExpenseModal = ({ show, handleClose, defaultBudgetId }) => {
+const AddExpenseModal = ({ show, handleClose, defaultBudgetId, theme }) => {
   const descriptionRef = useRef();
   const amountRef = useRef();
   const budgetIdRef = useRef();
@@ -19,7 +19,7 @@ const AddExpenseModal = ({ show, handleClose, defaultBudgetId }) => {
   }
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal data-theme={theme} show={show} onHide={handleClose}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>New Expense</Modal.Title>
@@ -60,5 +60,6 @@ const AddExpenseModal = ({ show, handleClose, defaultBudgetId }) => {
     </Modal>
   );
 };
+
 
 export default AddExpenseModal;
