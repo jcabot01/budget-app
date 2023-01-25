@@ -9,7 +9,7 @@ const UncategorizedBudgetCard = (props) => {
     0
   );
   if (amount === 0) return null;
-  return <BudgetCard className={`$bg-${props.theme}`} amount={amount} name="Uncategorized" gray {...props} />;
+  return <BudgetCard amount={amount} name="Uncategorized" gray {...props} />;
 };
 
 export default UncategorizedBudgetCard;

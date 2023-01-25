@@ -2,12 +2,21 @@ import React from "react";
 import { Stack, Button, Card, ProgressBar } from "react-bootstrap";
 import { currencyFormatter } from "../utils";
 
-const BudgetCard = ({ name, amount, max, gray, onAddExpenseClick, hideButtons, onViewExpensesClick, theme }) => {
+const BudgetCard = ({
+  name,
+  amount,
+  max,
+  gray,
+  onAddExpenseClick,
+  hideButtons,
+  onViewExpensesClick,
+  theme,
+}) => {
   const classNames = [];
   if (amount > max) {
-    classNames.push("bg-danger bg-opacity-10");
+    classNames.push("bg-danger bg-opacity-50");
   } else if (gray) {
-    classNames.push("bg-light");
+    classNames.push({ theme });
   }
 
   function getProgressBarVariant(amount, max) {
@@ -18,9 +27,9 @@ const BudgetCard = ({ name, amount, max, gray, onAddExpenseClick, hideButtons, o
   }
 
   return (
-    <Card className={`${classNames.join(" ")} bg-${theme}`}>
+    <Card className={classNames.join(" ")}>
       <Card.Body>
-        <Card.Title className={`text-${theme === "dark" ? "light" : "dark"} d-flex justify-content-between align-items-baseline fw-normal mb-3`}>
+        <Card.Title className="d-flex justify-content-between align-items-baseline fw-normal mb-3">
           <div className="me-2">{name}</div>
           <div className="d-flex align-items-baseline">
             {currencyFormatter.format(amount)}
@@ -33,24 +42,22 @@ const BudgetCard = ({ name, amount, max, gray, onAddExpenseClick, hideButtons, o
         </Card.Title>
         {max && (
           <ProgressBar
-          className="rounded-pill"
-          variant={getProgressBarVariant(amount, max)}
-          min={0}
-          max={max}
-          now={amount}
-        />
+            className="rounded-pill"
+            variant={getProgressBarVariant(amount, max)}
+            min={0}
+            max={max}
+            now={amount}
+          />
         )}
         {!hideButtons && (
-        <Stack direction="horizontal" gap="2" className="mt-4">
-          <Button
-            variant="outline-primary"
-            className="ms-auto"
-            onClick={onAddExpenseClick}
-          >
-            Add Expense
-          </Button>
-          <Button onClick={onViewExpensesClick} variant="outline-secondary">View Expense</Button>
-        </Stack>
+          <Stack direction="horizontal" gap="2" className="mt-4">
+            <Button className="ms-auto" onClick={onAddExpenseClick}>
+              Add Expense
+            </Button>
+            <Button onClick={onViewExpensesClick} variant="outline-primary">
+              View Expense
+            </Button>
+          </Stack>
         )}
       </Card.Body>
     </Card>

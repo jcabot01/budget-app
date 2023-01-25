@@ -1,13 +1,14 @@
 import { Button, Container, Stack } from "react-bootstrap";
 import AddBudgetModal from "./components/AddBudgetModal";
+import Form from 'react-bootstrap/Form';
 import BudgetCard from "./components/BudgetCard";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "./contexts/BudgetContext";
 import AddExpenseModal from "./components/AddExpenseModal";
 import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard";
 import TotalBudgetCard from "./components/TotalBudgetCard";
 import ViewExpensesModal from "./components/ViewExpensesModal";
-// import useLocalStorage from 'use-local-storage'
+import useLocalStorage from 'use-local-storage'
 import "./app.css";
 
 function App() {
@@ -16,20 +17,13 @@ function App() {
   const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState();
   const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState();
   const { budgets, getBudgetExpenses } = useBudgets();
-  const defaultLight = window.matchMedia(
-    "(prefers-color-scheme: light)"
-  ).matches;
-  const [theme, setTheme] = useState("theme", defaultLight ? "light" : "dark");
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'light' : 'dark');
 
   const switchTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
   };
-
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
-    document.body.className = theme;
-  }, [theme]);
 
   function openAddExpenseModal(budgetId) {
     setShowAddExpenseModal(true);
@@ -40,19 +34,27 @@ function App() {
     <div className="App" data-theme={theme}>
       <Container className="my-4">
         <Stack direction="horizontal" gap={2} className="mb-4">
-          <h1 className="me-auto">Budgets</h1>
-          <Button variant="primary" onClick={() => setShowAddBudgetModal(true)}>
+          <h1 className="me-auto"><span>My</span> Budget</h1>
+          <Button onClick={() => setShowAddBudgetModal(true)}>
             Add Budget
           </Button>
-          <Button variant="outline-primary" onClick={openAddExpenseModal}>
+          <Button onClick={openAddExpenseModal}>
             Add Expense
           </Button>
-          <Button
-            variant={theme === "dark" ? "light" : "dark"}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
+            <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+          </svg>
+          <Form.Check 
+            type="switch"
+            className="align-items-center d-flex justify-content-center"
             onClick={switchTheme}
-          >
-            toggle {theme === "dark" ? "light" : "dark"}
-          </Button>
+            id="custom-switch"
+            theme={theme}
+          />
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16">
+            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+            <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+          </svg>
         </Stack>
         <div
           style={{
@@ -69,7 +71,6 @@ function App() {
             );
             return (
               <BudgetCard
-                theme={theme === "dark" ? "light" : "dark"}
                 key={budget.id}
                 name={budget.name}
                 amount={amount}
@@ -82,13 +83,12 @@ function App() {
             );
           })}
           <UncategorizedBudgetCard
-            theme={theme === "dark" ? "light" : "dark"}
             onAddExpenseClick={openAddExpenseModal}
             onViewExpensesClick={() =>
               setViewExpensesModalBudgetId(UNCATEGORIZED_BUDGET_ID)
             }
           />
-          <TotalBudgetCard theme={theme === "dark" ? "light" : "dark"} />
+          <TotalBudgetCard  />
         </div>
       </Container>
       <AddBudgetModal

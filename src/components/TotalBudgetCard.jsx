@@ -2,7 +2,7 @@ import React from "react";
 import { useBudgets } from "../contexts/BudgetContext";
 import BudgetCard from "./BudgetCard";
 
-const TotalBudgetCard = ({theme}) => {
+const TotalBudgetCard = () => {
   const { expenses, budgets } = useBudgets();
   const amount = expenses.reduce(
     (total, expense) => total + expense.amount,
@@ -13,7 +13,7 @@ const TotalBudgetCard = ({theme}) => {
     0
   );
   if (max === 0) return null;
-  return <BudgetCard className={`bg-${theme}`} amount={amount} name="Total" gray max={max} hideButtons/>;
+  return <BudgetCard amount={amount} name="Total" gray max={max} hideButtons/>;
 };
 
 export default TotalBudgetCard;
