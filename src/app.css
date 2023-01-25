@@ -12,10 +12,6 @@
     --accent: #3B71CA;
   }
 
-  /* h1 {
-    color: var(--heading-color);
-  } */
-
   .App {
     color: var(--text-primary);
     background-color: var(--background);
@@ -31,9 +27,6 @@
   button.btn {
     color: var(--text-secondary);
     background-color: var(--background);
-    /* border: 2px var(--accent) solid; */
-    /* border: none; */
-    float: right;
     transition: all .5s;
   }
 
@@ -49,8 +42,6 @@
     background-color: var(--background-secondary);
     color: var(--text-primary);
     border-radius: 10px;
-    /* border: 2px var(--accent) solid; */
-    /* z-index: 0; */
   }
 
   div.modal-content {
