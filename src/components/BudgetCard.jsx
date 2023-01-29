@@ -30,7 +30,7 @@ const BudgetCard = ({
     <Card className={classNames.join(" ")}>
       <Card.Body>
         <Card.Title className="d-flex justify-content-between align-items-baseline fw-normal mb-3">
-          <div className="me-2">{name}</div>
+          <div className="me-2"><span>{name}</span></div>
           <div className="d-flex align-items-baseline">
             {currencyFormatter.format(amount)}
             {max && (
@@ -51,11 +51,20 @@ const BudgetCard = ({
         )}
         {!hideButtons && (
           <Stack direction="horizontal" gap="2" className="mt-4">
-            <Button className="ms-auto" variant="sm" onClick={onAddExpenseClick}>
+            <Button 
+              className="ms-auto" 
+              variant="sm" 
+              onClick={onAddExpenseClick}
+              aria-label={`Add items to ${name}`}
+              title={`Add items to ${name}`}>
               Add Expense
             </Button>
-            <Button onClick={onViewExpensesClick} variant="sm">
-              View Expense
+            <Button 
+              onClick={onViewExpensesClick} 
+              variant="sm"
+              aria-label={`View, edit, or delete items in ${name}`}
+              title={`View, edit, or delete items in ${name}`}>
+              View Expenses
             </Button>
           </Stack>
         )}

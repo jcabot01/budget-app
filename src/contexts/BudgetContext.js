@@ -4,7 +4,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 const BudgetsContext = React.createContext();
 
-export const UNCATEGORIZED_BUDGET_ID = "Uncategorized"
+export const UNCATEGORIZED_BUDGET_ID = "Uncategorized";
 
 export function useBudgets() {
   return useContext(BudgetsContext);
@@ -33,21 +33,36 @@ export const BudgetsProvider = ({ children }) => {
     });
   }
 
-  function deleteBudget({id}) {
-    setExpenses(prevExpenses => {
-      return prevExpenses.map(expense => {
-        if (expense.budgetId !== id) return expense
-        return {...expense, budgetId: UNCATEGORIZED_BUDGET_ID}
-      })
-    })
-    setBudgets(prevBudgets => {
-        return prevBudgets.filter(expense => expense.id !== id);
+  function deleteBudget({ id }) {
+    setExpenses((prevExpenses) => {
+      return prevExpenses.map((expense) => {
+        if (expense.budgetId !== id) return expense;
+        return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID };
+      });
+    });
+    setBudgets((prevBudgets) => {
+      return prevBudgets.filter((expense) => expense.id !== id);
     });
   }
 
-  function deleteExpense({id}) {
-    setExpenses(prevExpenses => {
-        return prevExpenses.filter(budget => budget.id !== id);
+  function editExpense({ id }) {
+    setBudgets((prevExpenses) => {
+      if (prevExpenses.find((expense) => expense.id === id)) {
+        return prevExpenses;
+      }
+      return [...prevExpenses, { id: id }];
+    });
+  }
+
+  // function editExpense({ id }) {
+  //   setExpenses((prevExpenses) => {
+  //     return prevExpenses.filter((budget) => budget.id !== id);
+  //   });
+  // }
+
+  function deleteExpense({ id }) {
+    setExpenses((prevExpenses) => {
+      return prevExpenses.filter((budget) => budget.id !== id);
     });
   }
 
@@ -60,6 +75,7 @@ export const BudgetsProvider = ({ children }) => {
         addExpense,
         addBudget,
         deleteBudget,
+        editExpense,
         deleteExpense,
       }}
     >

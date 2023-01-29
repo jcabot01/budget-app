@@ -32,24 +32,31 @@ function App() {
     setAddExpenseModalBudgetId(budgetId);
   }
 
-
-
   return (
     <div className="App" data-theme={theme}>
       <Container className="my-4">
         <Stack direction="horizontal" gap={2} className="mb-4">
           <h1 className="me-auto"><span>My</span> Budget</h1>
-          <Button onClick={() => setShowAddBudgetModal(true)} variant="sm">
-            Add Budget
+          <Button 
+            onClick={() => setShowAddBudgetModal(true)} 
+            variant="sm border"
+            aria-label="Add an expense category"
+            title="Add an expense category">
+            Add Category
           </Button>
-          <Button onClick={openAddExpenseModal} variant="sm">
+          <Button 
+            onClick={openAddExpenseModal} 
+            variant="sm border"
+            aria-label="Add a new expense to any category"
+            title="Add a new expense to any category">
             Add Expense
           </Button>
           <Button type="switch"
             onClick={switchTheme}
             id="custom-switch"
-            variant="sm"
-            >
+            variant="sm border"
+            aria-label={`Toggle ${theme === "dark" ? "light" : "dark"} mode`}
+            title={`Toggle ${theme === "dark" ? "light" : "dark"} mode`}>
             {theme === "dark" ? <BsFillSunFill /> : <BsMoonStarsFill />}
           </Button> 
         </Stack>
