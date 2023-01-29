@@ -15,8 +15,9 @@ const ViewExpensesModal = ({ budgetId, handleClose }) => {
   ? { name: "Uncategorized", id: UNCATEGORIZED_BUDGET_ID }
   : budgets.find((b) => b.id === budgetId); 
   
-  function openEditExpenseModal(e) {
+  function openEditExpenseModal() {
     setShowEditExpenseModal(true);
+    
     handleClose();
   }
   
@@ -52,6 +53,7 @@ const ViewExpensesModal = ({ budgetId, handleClose }) => {
                     </div>
                     <Button 
                       onClick={openEditExpenseModal}
+                      id={expense.id}
                       description={expense.description}
                       amount={expense.amount}
                       variant="sm"
@@ -72,7 +74,7 @@ const ViewExpensesModal = ({ budgetId, handleClose }) => {
       </Modal.Body>
     </Modal>
     <EditExpenseModal
-        theExpense = {expenses}
+        expense = {expenses}
         budgetId={budgetId}
         expenses={expenses.map((expense) => (
           {description: expense.description, 

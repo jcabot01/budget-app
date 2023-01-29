@@ -45,18 +45,13 @@ export const BudgetsProvider = ({ children }) => {
     });
   }
 
-  function editExpense({ id }) {
-    setBudgets((prevExpenses) => {
-      if (prevExpenses.find((expense) => expense.id === id)) {
-        return prevExpenses;
-      }
-      return [...prevExpenses, { id: id }];
-    });
+  function editExpense({ id, updatedExpense }) {
+    setExpenses(expenses.map((expense) => expense.id === id ? updatedExpense : expense))
   }
 
   // function editExpense({ id }) {
   //   setExpenses((prevExpenses) => {
-  //     return prevExpenses.filter((budget) => budget.id !== id);
+  //     return prevExpenses.map((expense) => expense.id === id);
   //   });
   // }
 
