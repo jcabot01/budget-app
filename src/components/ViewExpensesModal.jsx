@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import { Modal, Button, Stack } from "react-bootstrap";
-import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../contexts/BudgetContext";
+import { UNCATEGORIZED_BUDGET_ID, useBudgets} from "../contexts/BudgetContext";
 import { currencyFormatter } from "../utils";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import EditExpenseModal from './EditExpenseModal';
@@ -8,19 +8,27 @@ import EditExpenseModal from './EditExpenseModal';
 const ViewExpensesModal = ({ budgetId, handleClose }) => {
   const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } = useBudgets();
   const [showEditExpenseModal, setShowEditExpenseModal] = useState(false);
-  
+  const [expenseToBeEdited, setExpenseToBeEdited] = useState();
+  // const [expenseToBeEdited, setExpenseToBeEdited] = useState({});
   const expenses = getBudgetExpenses(budgetId)
+  
   const budget =
   UNCATEGORIZED_BUDGET_ID === budgetId
   ? { name: "Uncategorized", id: UNCATEGORIZED_BUDGET_ID }
   : budgets.find((b) => b.id === budgetId); 
-  
-  function openEditExpenseModal() {
+   
+  function openEditExpenseModal() {  
     setShowEditExpenseModal(true);
-    
     handleClose();
   }
+
+  function setExpense(e) {
+    let foundExpense = expenses.find(expense => expense.id === e.target.parentElement.id)
+    setExpenseToBeEdited(foundExpense);  
+    openEditExpenseModal()
+  }
   
+
   return (
     <>
     <Modal show={budgetId != null} onHide={handleClose}>
@@ -49,10 +57,9 @@ const ViewExpensesModal = ({ budgetId, handleClose }) => {
             {expenses.map(expense => (
                 <Stack direction="horizontal" gap="2" key={expense.id}>
                     <div type="text" className="me-auto fs-4">{expense.description}</div>
-                    <div className="fs-5">{currencyFormatter.format(expense.amount)}
-                    </div>
+                    <div className="fs-5">{currencyFormatter.format(expense.amount)}</div>
                     <Button 
-                      onClick={openEditExpenseModal}
+                      onClick={(e)=>setExpense(e)}
                       id={expense.id}
                       description={expense.description}
                       amount={expense.amount}
@@ -73,16 +80,30 @@ const ViewExpensesModal = ({ budgetId, handleClose }) => {
         </Stack>
       </Modal.Body>
     </Modal>
-    <EditExpenseModal
-        expense = {expenses}
-        budgetId={budgetId}
-        expenses={expenses.map((expense) => (
-          {description: expense.description, 
-          amount: expense.amount}
-        ))}
-        show={showEditExpenseModal}
-        handleClose={() => setShowEditExpenseModal(false)}
-      />
+
+{showEditExpenseModal ?
+  <EditExpenseModal
+
+  expense = {expenseToBeEdited}
+  // expense = {expenses}
+  // budgetId={budgetId}
+  // expenses={expenses.map((expense) => (
+  //   {
+  //   id: expense.id,
+  //   description: expense.description, 
+  //   amount: expense.amount}
+  // ))}
+  show={showEditExpenseModal}
+  // handleClose={() => setShowEditExpenseModal(false)}
+  // handleClose={() => setShowEditExpenseModal(false)}
+/>
+
+:
+""
+}
+    
+ 
+    
       </>
   );
 };

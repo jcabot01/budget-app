@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
+import { v4 as uuidV4 } from "uuid";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../contexts/BudgetContext";
 
 const AddExpenseModal = ({ show, handleClose, defaultBudgetId, theme }) => {
@@ -13,8 +14,10 @@ const AddExpenseModal = ({ show, handleClose, defaultBudgetId, theme }) => {
     addExpense({
       description: descriptionRef.current.value,
       amount: parseFloat(amountRef.current.value),
+      id: uuidV4(),
       budgetId: budgetIdRef.current.value,
     });
+
     handleClose();
   }
 

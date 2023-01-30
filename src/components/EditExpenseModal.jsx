@@ -5,35 +5,37 @@ import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../contexts/BudgetContext";
 const EditExpenseModal = ({ show, handleClose, budgetId, theme, expenses, expense }) => {
   const { editExpense, budgets } = useBudgets();
 
-  const {description, setDescription} = useState(expenses.description)
-  const {amount, setAmount} = useState(expenses.amount)
-  // const {budget, setBudget} = useState(budgets.name)
+  const [newDescription, setNewDescription] = useState(expense.description)
+  const [newAmount, setNewAmount] = useState(expense.amount)
+  // // const {budget, setBudget} = useState(budgets.name)
   
-  const id = budgetId;
-  
-  const updatedExpense = {id, description, amount}
+  // const id = budgetId;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(e);
-    editExpense({id, updatedExpense})
-    handleClose();
-  }
+  // const updatedExpense = {id, description, amount}
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
-  //   editExpense({
-  //     id: id,
-  //     description: e.current.value,
-  //     amount: parseFloat(e.current.value),
-  //     // budgetId: e.current.value,
-  //   });
+  //   // console.log(e);
+  //   editExpense({id, updatedExpense})
   //   handleClose();
   // }
 
-  expenses.map((expense) => {
-    console.log(expense.amount);
-  })
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    editExpense({
+      // id: id,
+      description: newDescription,
+      amount: parseFloat(newAmount),
+      // budgetId: e.current.value,
+    });
+    handleClose();
+  }
+
+  // expenses.map((expense) => {
+  //   console.log(expense);
+  // })
+  console.log(expense.description)
+ 
 
   return (
     <Modal data-theme={theme} show={show} onHide={handleClose}>
@@ -47,8 +49,9 @@ const EditExpenseModal = ({ show, handleClose, budgetId, theme, expenses, expens
             <Form.Control 
               type="text"
               name="description"
-              value={description}
-              onChange={setDescription}
+              placeholder={expense.description}
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
               required/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="amount">
@@ -56,8 +59,10 @@ const EditExpenseModal = ({ show, handleClose, budgetId, theme, expenses, expens
             <Form.Control
               type="number"
               name="amount"
-              value={amount}
-              onChange={setAmount}
+              placeholder={expense.amount}
+              value={newAmount}
+              // onChange={(e) => console.log(e.target.value)}
+              onChange={(e) => setNewAmount(e.target.value)}
               required
               min={0}
               step={0.01}
